@@ -11,11 +11,34 @@
 console.log(filtrarPares([1, 2, 3, 4, 5, 6]))*/
 
 const express = require('express')
+const { Client } = require('pg')
+require('dotenv').config()
+
+const client = new Client({
+    host: process.env.host,
+    port: process.env.port,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database,
+})
 
 const app = express()
 
+const connectDB = async () => {
+    client
+    .connect()
+    .then(() => {
+        console.log('a conexão funcionou')
+    })
+    .catch((err) => {
+        console.error('erro ao conectar db')
+    })
+}
+
+
 app.get('/test-api', function(req, res) {
-    res.send(' NOSSA API TA FUNCIONANDO')
+    res.send(' funcionando... ')
 })
 
+connectDB()
 app.listen(8000)
